@@ -47,8 +47,8 @@ int main(int argc, char** argv){
           
         }
         
-        }
-        }
+      }
+    }
        
     for(i=0;i<numberofvertex;i++){
       if(degree[i]%2==1){
@@ -60,18 +60,87 @@ int main(int argc, char** argv){
    for(i=0;i<odd_vertex.size();i+=2)
     nm->connect(odd_vertex[i+1]->name,odd_vertex[i]->name);
     
+    
+    
+     ///////////////////////odd_vertex debug check
+   /*
+    cout<<degree[0]<<endl;
+    cout<<degree[1]<<endl;
+    cout<<degree[2]<<endl;
+    cout<<degree[3]<<endl;
+    cout<<degree[4]<<endl;
+    
+    cout<<odd_vertex[0]->name<<endl;
+    cout<<odd_vertex[1]->name<<endl;
+    cout<<odd_vertex[2]->name<<endl;
+    cout<<odd_vertex[3]->name<<endl;
+    cout<<odd_vertex[4]->name<<endl;
+    */
+   
+    
    /////////////////////////////Euler circuit 
     vector<Vertex *> tempPath;
     vector<Vertex *> finalpath;
+    
+    int h=0;
+    int q=0;
     int t;
-    int f;
+    //nm->print_all_e();
+    while(h<numberofvertex){
     
-    
-    
-    for(t=0;t<)
-    
-   
-    
+      for(t=0;t<numberofvertex;t++){
+        if(nm->connected(node_vlist[h]->name,node_vlist[t]->name)==0){
+          cout<<"t in q=0:"<<t<<endl;
+          tempPath.push_back(node_vlist[h]);
+          nm->linkdown(node_vlist[h],node_vlist[t]);
+          
+        break;
+        }
+        else if(nm->elist==0){
+          tempPath.push_back(node_vlist[h]);
+          q==2;
+        break;
+        }
+        else if(nm->connected(node_vlist[h]->name,node_vlist[t]->name)==1){
+          tempPath.pop_back();
+          finalpath.push_back(node_vlist[h]);
+          q==1;
+        break;
+        }  
+      }  
+    cout<<"whether repeat or the end:"<<q<<endl;  
+    if(q==1){
+      h= tempPath.size();
+    }  
+    else if(q==2){
+      break;
+    }
+    else{
+     cout<<"no repeat t:"<<t<<endl;
+      h=t; 
+    cout<<"no repeat h:"<<h<<endl;  
+    }
+ 
+  
+  }
+  
+  for(int v=tempPath.size();v>0;v--){
+    finalpath.push_back(tempPath.back());
+    tempPath.pop_back();
+  }  
+  
+  cout<<"finalpath:"<<finalpath.at(0)->name<<endl;
+  cout<<finalpath.at(1)->name<<endl;
+  cout<<finalpath.at(2)->name<<endl;
+  cout<<finalpath.at(3)->name<<endl;
+  cout<<finalpath.at(4)->name<<endl;
+  cout<<finalpath.at(5)->name<<endl;
+  cout<<finalpath.at(6)->name<<endl;
+  cout<<finalpath.at(7)->name<<endl;
+  cout<<finalpath.at(8)->name<<endl;
+
+  
+  
     
     ///////////////////////
    /* 
@@ -86,8 +155,8 @@ int main(int argc, char** argv){
     cout<<odd_vertex[2]->name<<endl;
     cout<<odd_vertex[3]->name<<endl;
     cout<<odd_vertex[4]->name<<endl;
-    */
     
+   */ 
 
     
     
