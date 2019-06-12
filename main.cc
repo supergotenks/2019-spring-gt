@@ -98,17 +98,17 @@ int main(int argc, char** argv){
         }
         else if(nm->elist==0){
           tempPath.push_back(node_vlist[h]);
-          q==2;
+          q=2;
         break;
         }
-        else if(nm->connected(node_vlist[h]->name,node_vlist[t]->name)==1){
+        else if(t==numberofvertex-1){
           tempPath.pop_back();
           finalpath.push_back(node_vlist[h]);
-          q==1;
+          q=1;
         break;
         }  
       }  
-    cout<<"whether repeat or the end:"<<q<<endl;  
+    cout<<"check the situation"<<q<<endl;  
     if(q==1){
       h= tempPath.size();
     }  
@@ -116,9 +116,9 @@ int main(int argc, char** argv){
       break;
     }
     else{
-     cout<<"no repeat t:"<<t<<endl;
+     
       h=t; 
-    cout<<"no repeat h:"<<h<<endl;  
+    cout<<"check the next head:"<<h<<endl;  
     }
  
   
@@ -128,7 +128,7 @@ int main(int argc, char** argv){
     finalpath.push_back(tempPath.back());
     tempPath.pop_back();
   }  
-  
+  //////////////////////// debug for Euler circuit
   cout<<"finalpath:"<<finalpath.at(0)->name<<endl;
   cout<<finalpath.at(1)->name<<endl;
   cout<<finalpath.at(2)->name<<endl;
@@ -142,7 +142,7 @@ int main(int argc, char** argv){
   
   
     
-    ///////////////////////
+    ///////////////////////debug for odd_vertex
    /* 
     cout<<degree[0]<<endl;
     cout<<degree[1]<<endl;
