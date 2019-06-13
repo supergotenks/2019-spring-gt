@@ -191,7 +191,7 @@ if(odd_vertex.size()==2){
   int number_of_vertex_in_euler_path_vector;
   number_of_vertex_in_euler_path_vector= finalpath.size();
   for(i=0;i<number_of_vertex_in_euler_path_vector;i++){
-    cout<<finalpath.at(i)<<endl;
+    cout<<finalpath.at(i)->name<<endl;
   }  
     
     string writeFileName="Euler_Path.txt";
