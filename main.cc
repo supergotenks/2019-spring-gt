@@ -14,6 +14,7 @@ using namespace std;
 
 int Vertex_Number_getting(vector<Vertex*> node_vlist, string vertex) ;
 int distance_getting_fromBFS(vector<Vertex*> node_vlist,string start_vertex, string end_vertex);
+vector<Vertex*> path_getting_fromBFS(vector<Vertex*> node_vlist,string start_vertex, string end_vertex);
 
 
 // create NetworkManager first
@@ -74,10 +75,17 @@ int main(int argc, char** argv){
 /////////////using BFS to find the shortest distance of two point
 int distance_from_start_to_end;
  distance_from_start_to_end = distance_getting_fromBFS(node_vlist,node_vlist[0]->name,node_vlist[5]->name);
- cout<<"distance_from_start_to_end:"<<distance_from_start_to_end<<endl;
+ cout<<"distance_from_start_to_end:"<<distance_from_start_to_end<<endl; 
+
+ 
  
  
 /////////////find the shortest path 
+vector<Vertex*> path_from_start_to_end; 
+ path_from_start_to_end = path_getting_fromBFS(node_vlist,node_vlist[2]->name,node_vlist[0]->name);
+cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(0)->name<<endl;
+cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(1)->name<<endl;
+cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
 
 
   
@@ -178,7 +186,7 @@ int Vertex_Number_getting( vector<Vertex*> node_vlist, string vertex){
   return Vertex_Number;
 }  
   
- /////////////////////////////BFS algo
+ /////////////////////////////BFS algo for distance
  int distance_getting_fromBFS(vector<Vertex*> node_vlist,string start_vertex, string end_vertex){
    vector<Vertex *> queue;
    int numberofvertex = node_vlist.size();
@@ -234,4 +242,66 @@ int Vertex_Number_getting( vector<Vertex*> node_vlist, string vertex){
   int End_Vertex_Number ;
   End_Vertex_Number = Vertex_Number_getting(node_vlist,end_vertex ) ;
   return distance[End_Vertex_Number] ;
+}
+
+
+/////////////////////////////BFS algo for path
+vector<Vertex*> path_getting_fromBFS(vector<Vertex*> node_vlist,string start_vertex, string end_vertex){
+   vector<Vertex *> queue;
+   int numberofvertex = node_vlist.size();
+   int distance[numberofvertex];
+   int color[numberofvertex];
+   int predecessor[numberofvertex];
+   int i;
+   int j;
+   vector<Vertex*> record_path; 
+   
+   
+    for( i=0;i<numberofvertex;i++){
+      color[i]=0;
+      predecessor[i]=-1;
+      distance[i]= numberofvertex +1;
+    } 
+    int start_vertex_number;
+    start_vertex_number= Vertex_Number_getting(node_vlist,start_vertex);
+    i = start_vertex_number;
+    cout<<"i="<<i<<endl;  
+    for( j=0;j<numberofvertex;j++){
+      if(color[i]==0){
+        color[i] = 1;
+        distance[i]=0;
+        predecessor[i]=-1;
+        queue.push_back(node_vlist[i]);
+
+        while(!queue.empty()){
+        int u;
+        u= Vertex_Number_getting(node_vlist,queue.front()->name);
+        int itr;  
+          for(itr=0;itr<numberofvertex;itr++){
+            if(nm->connected(node_vlist[u]->name,node_vlist[itr]->name)==0){
+              if(color[itr]==0){
+                color[itr]=1;
+                distance[itr]=distance[u]+1;
+                predecessor[itr] =u;
+                queue.push_back(node_vlist[itr]);
+              }
+            }  
+          }
+          queue.erase(queue.begin());  
+          color[u]=2;
+        }
+      }  
+      i=j;
+  
+    }
+  int End_Vertex_Number ;
+  End_Vertex_Number = Vertex_Number_getting(node_vlist,end_vertex );  
+  record_path.push_back(node_vlist[End_Vertex_Number]);
+  i= End_Vertex_Number;
+  while(i>-1){
+    j=predecessor[i];
+    record_path.push_back(node_vlist[j]);
+    i=j;
+  }  
+  return record_path;
 }
