@@ -95,37 +95,37 @@ keypoints:
 and we can find the ideal solution is the Euler path
 
 #### algorithms
-first,I find every degree of all vertex and identify which vertex has odd degree.
-Put them into odd_vertex vector.
-If the number of the odd_vertex size is 0,the graph is a Euler circuit
-We can find the Euler path and the finalpath is the answer
+first,I find every degree of all vertex and identify which vertex has odd degree.        
+Put them into odd_vertex vector.   
+If the number of the odd_vertex size is 0,the graph is a Euler circuit  
+We can find the Euler path and the finalpath is the answer  
 if the number of the odd_vertex size is 2 or bigger than 2,it can be consider two situation
 
-1.These two vertex are connected.
-  Directly build the connection between these two vertex.
-2.These two vertex are not connected.
-  Find the shortest path between these two vertex, and connect each vertex in shortest path.
+1.These two vertex are connected.  
+  Directly build the connection between these two vertex.  
+2.These two vertex are not connected.  
+  Find the shortest path between these two vertex, and connect each vertex in shortest path.  
 this program can find the bestsolution under the condition that the number of vertex with an odd degree is 2
 and not finish bigger than two yet.
 
-use BFS to find the shortest path and record the path of two odd_vertex
+use BFS to find the shortest path and record the path of two odd_vertex  
 since all the weight is 1,we can use BFS instead of Dijkstra's algorithm to find the shortest path.
 
-To find the Euler path of the graph
-I use two vector
-one is tempPath and the other is finalpath.
-first, I check which point is connected to start point
-and push the head which is the start point into tempPath.
-and delete the edge between head and tail
-second,use the tail to be the next head and repeat the first step
-if can't find any edge,push the last vector of tempPath to finalpath
-and delete the last vector of tempPath
-after this it can find other path if the last vector of tempPath have other connection
+To find the Euler path of the graph  
+I use two vector  
+one is tempPath and the other is finalpath.  
+first, I check which point is connected to start point  
+and push the head which is the start point into tempPath.  
+and delete the edge between head and tail  
+second,use the tail to be the next head and repeat the first step  
+if can't find any edge,push the last vector of tempPath to finalpath  
+and delete the last vector of tempPath  
+after this it can find other path if the last vector of tempPath have other connection  
 repeat the first step until all edge is deleted
 
 #### program
-Vertex_Number_getting is transfer the node to a number
-distance_getting_fromBFS is calculate the shortest distance of two vertex
+Vertex_Number_getting is transfer the node to a number  
+distance_getting_fromBFS is calculate the shortest distance of two vertex  
 path_getting_fromBFS is record the shortest path
 
 #### file name identification
