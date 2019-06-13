@@ -197,7 +197,7 @@ if(odd_vertex.size()==2){
     string writeFileName="Euler_Path.txt";
     ofstream out(writeFileName.c_str());
     for(int i=0; i<finalpath.size(); i++){
-        out<<finalpath.at(i)<<endl;
+        out<<finalpath.at(i)->name<<endl;
     }    
     out.close();
     
