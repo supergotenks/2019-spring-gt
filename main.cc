@@ -64,28 +64,38 @@ int main(int argc, char** argv){
         odd_vertex.push_back(node_vlist[i]);
       }    
     }
-      
-   //////////////////////////////connect two odd_vertex
-  /* 
-    for(i=0;i<odd_vertex.size();i+=2)
-    nm->connect(odd_vertex[i+1]->name,odd_vertex[i]->name);
     
-  */  
-  
-/////////////using BFS to find the shortest distance of two point
-int distance_from_start_to_end;
- distance_from_start_to_end = distance_getting_fromBFS(node_vlist,node_vlist[0]->name,node_vlist[5]->name);
- cout<<"distance_from_start_to_end:"<<distance_from_start_to_end<<endl; 
 
- 
- 
- 
-/////////////find the shortest path 
-vector<Vertex*> path_from_start_to_end; 
- path_from_start_to_end = path_getting_fromBFS(node_vlist,node_vlist[2]->name,node_vlist[0]->name);
-cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(0)->name<<endl;
-cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(1)->name<<endl;
-cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
+  
+      
+   
+   /////////////////////////////connect two odd_vertex
+   int distance_for_two_oddvertex;
+   vector<Vertex*> path_for_two_oddvertex;
+if(odd_vertex.size()==2){
+  
+  distance_for_two_oddvertex=distance_getting_fromBFS(node_vlist,odd_vertex[0]->name,odd_vertex[1]->name);
+  cout<<"distance_for_two_oddvertex:"<<distance_for_two_oddvertex<<endl;
+  
+  if(distance_for_two_oddvertex==1){
+    cout<<"odd_vertex[0]"<<odd_vertex[0]->name<<endl;
+    cout<<"odd_vertex[1]"<<odd_vertex[1]->name<<endl;
+    nm->connect(odd_vertex[0]->name,odd_vertex[1]->name);
+    cout<<"connected1"<<endl;
+  }  
+  else if(distance_for_two_oddvertex>1){
+    path_for_two_oddvertex=path_getting_fromBFS(node_vlist,odd_vertex[0]->name,odd_vertex[1]->name);
+    for(i=0;i<path_for_two_oddvertex.size()-2;i++){
+      nm->connect(path_for_two_oddvertex[i]->name,path_for_two_oddvertex[i+1]->name);
+  
+    }
+  } 
+} 
+//////////////odd_vertex.size()>2   
+/*else if (odd_vertex.size()==4){
+  int distance_conbination[6];
+*/  
+    
 
 
   
@@ -110,32 +120,39 @@ cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
     vector<Vertex *> finalpath;
     
     int h=0;
-    int q=0;
+    int q;
     int t;
     //nm->print_all_e();
     while(h<numberofvertex){
-    
+      q=0;
       for(t=0;t<numberofvertex;t++){
         if(nm->connected(node_vlist[h]->name,node_vlist[t]->name)==0){
-          cout<<"t in q=0:"<<t<<endl;
           tempPath.push_back(node_vlist[h]);
-          nm->linkdown(node_vlist[h],node_vlist[t]);
-          
+            if(nm->connected_d(node_vlist[h]->name,node_vlist[t]->name)==0){
+              nm->linkdown(node_vlist[h],node_vlist[t]);
+            }
+            else if(nm->connected_d(node_vlist[t]->name,node_vlist[h]->name)==0){
+              nm->linkdown(node_vlist[t],node_vlist[h]);
+            }  
+          nm->print_all_e();
+          cout<<"br1:"<<endl;
         break;
         }
         else if(nm->elist==0){
           tempPath.push_back(node_vlist[h]);
           q=2;
+          cout<<"br2:"<<endl;
         break;
         }
         else if(t==numberofvertex-1){
           tempPath.pop_back();
           finalpath.push_back(node_vlist[h]);
           q=1;
+          cout<<"br3:"<<endl;
         break;
         }  
       }  
-    cout<<"check the situation"<<q<<endl;  
+    cout<<"check the situation:"<<q<<endl;  
     if(q==1){
       h= tempPath.size();
     }  
@@ -156,7 +173,8 @@ cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
     tempPath.pop_back();
   }  
   //////////////////////// debug for Euler circuit
- /* cout<<"finalpath:"<<finalpath.at(0)->name<<endl;
+ 
+  cout<<"finalpath:"<<finalpath.at(0)->name<<endl;
   cout<<finalpath.at(1)->name<<endl;
   cout<<finalpath.at(2)->name<<endl;
   cout<<finalpath.at(3)->name<<endl;
@@ -165,11 +183,28 @@ cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
   cout<<finalpath.at(6)->name<<endl;
   cout<<finalpath.at(7)->name<<endl;
   cout<<finalpath.at(8)->name<<endl;
-*/
-  
-  
-    
 
+  for(i=0;i<finalpath.size()-1;i++){
+    nm->connect(finalpath.at(i)->name,finalpath.at(i+1)->name);
+  }
+    
+  int number_of_vertex_in_euler_path_vector;
+  number_of_vertex_in_euler_path_vector= finalpath.size();
+  for(i=0;i<number_of_vertex_in_euler_path_vector;i++){
+    cout<<finalpath.at(i)<<endl;
+  }  
+    
+    string writeFileName="Euler_Path.txt";
+    ofstream out(writeFileName.c_str());
+    for(int i=0; i<finalpath.size(); i++){
+        out<<finalpath.at(i)<<endl;
+    }    
+    out.close();
+    
+    Gplot *gp = new Gplot();
+    gp->gp_add(nm->elist);
+    gp->gp_dump(true);
+    gp->gp_export("Euler_Path");
 
     
     
@@ -178,6 +213,11 @@ cout<<"path_from_start_to_end:"<<path_from_start_to_end.at(2)->name<<endl;
 
     return 0;
 }
+
+
+
+
+
 /////////////////transfer from vertex name to vertex number
 int Vertex_Number_getting( vector<Vertex*> node_vlist, string vertex){
   int Vertex_Number=0;
